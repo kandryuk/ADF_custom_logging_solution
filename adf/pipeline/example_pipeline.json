@@ -1,0 +1,33 @@
+{
+	"name": "example_pipeline",
+	"properties": {
+		"activities": [
+			{
+				"name": "Log duration",
+				"description": "Example of logging pipeline duration.",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "logging_pipeline",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"LogOutput": {
+							"value": "@concat('{ \"duration\": ', string(div(sub(float(ticks(utcnow())), float(ticks(pipeline().TriggerTime))), 600000000)),\n' }'\n\n)",
+							"type": "Expression"
+						},
+						"ParentPipeline": {
+							"value": "@pipeline().Pipeline",
+							"type": "Expression"
+						}
+					}
+				}
+			}
+		],
+		"folder": {},
+		"annotations": []
+	}
+}
